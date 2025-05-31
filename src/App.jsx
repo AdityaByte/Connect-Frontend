@@ -3,6 +3,9 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signup from "./pages/Signup";
+import { ToastContainer } from "react-toastify";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -11,7 +14,11 @@ const App = () => {
         <Route path="/" element={<Index />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute children={<Dashboard />} />
+        } />
       </Routes>
+      <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>
   )
 }
