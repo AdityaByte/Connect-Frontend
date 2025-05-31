@@ -21,9 +21,6 @@ const Login = () => {
         if (email.trim() === "" || password === "") {
             toast.error("Field's can't be empty")
             return
-        } else if (password.length <= 6) {
-            toast.error("Password must be greater than 6 characters")
-            return
         }
 
         // Here we need to make request to the backend.
@@ -37,24 +34,26 @@ const Login = () => {
                 "password": password
             })
         })
-        .then(async response => {
-            const data = await response.json()
-            if (response.status !== 200) {
-                console.log(data.message)
-                console.log(response.status)
-                throw new Error(data.message || "Something went wrong")
-            }
-            return data
-        })
-        .then(response => {
-            console.log(response.message)
-            toast.success(response.message)
-            navigate("/dashboard")
-        })
-        .catch(error => {
-            console.log(error)
-            toast.error(error.message)
-        })
+            .then(async response => {
+                const data = await response.json()
+                console.log(data)
+                if (response.status !== 200) {
+                    console.log(data.response)
+                    console.log(response.status)
+                    throw new Error(data.response || "Something went wrong")
+                }
+                return data.response
+            })
+            .then(response => {
+                console.log(response)
+                toast.success(response)
+                localStorage.setItem("authToken", "valid-token")
+                navigate("/dashboard")
+            })
+            .catch(error => {
+                console.log(error)
+                toast.error(error.message)
+            })
     }
 
     return (
