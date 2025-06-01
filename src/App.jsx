@@ -6,6 +6,7 @@ import Signup from "./pages/Signup";
 import { ToastContainer } from "react-toastify";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import OTPPage from "./pages/OTPPage";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/dashboard" element={
           <ProtectedRoute children={<Dashboard />} />
         } />
+        <Route path="/signup/otp" element={<OTPPage />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>

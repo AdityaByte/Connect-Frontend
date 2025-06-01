@@ -47,7 +47,7 @@ const Signup = () => {
             .then(async response => {
                 const data = await response.json()
                 console.log(data)
-                if (response.status != 201) {
+                if (response.status != 200) {
                     throw new Error(data.response || "Something went wrong")
                 }
                 // Else we need to send the response.
@@ -55,9 +55,8 @@ const Signup = () => {
             })
             .then(async data => {
                 toast.success(data.response)
-                // Here we need to create a fake token
-                localStorage.setItem("authToken", "valid-token")
-                navigate("/dashboard")
+                localStorage.setItem("email", email)
+                navigate("/signup/otp")
             })
             .catch(async error => {
                 console.log(error.message)
@@ -78,6 +77,7 @@ const Signup = () => {
                 <Link className="underline text-[#AAAAAA]" to={"/login"}>Already have an account? Login</Link>
                 <SubmitButton buttontext={"Signup"} />
             </form>
+
         </div>
     )
 }
