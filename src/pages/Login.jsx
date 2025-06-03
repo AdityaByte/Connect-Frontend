@@ -38,16 +38,16 @@ const Login = () => {
                 const data = await response.json()
                 console.log(data)
                 if (response.status !== 200) {
-                    console.log(data.response)
-                    console.log(response.status)
                     throw new Error(data.response || "Something went wrong")
                 }
-                return data.response
+                return data
             })
             .then(response => {
+                toast.success("Login Successfull")
                 console.log(response)
-                toast.success(response)
-                localStorage.setItem("authToken", "valid-token")
+                // Since I have set this token to the localStorage we can fetch claims in the dashboard through that.
+                localStorage.setItem("token", response.token)
+                localStorage.setItem("tokenExpiry", response.expiresAt)
                 navigate("/dashboard")
             })
             .catch(error => {
