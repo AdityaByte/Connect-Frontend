@@ -14,11 +14,13 @@ const OTPPage = () => {
 
     const [email, setEmail] = useState("")
 
+
     useEffect(() => {
         const storedEmail = localStorage.getItem("email")
         setEmail(storedEmail || "")
     }, [])
 
+    console.log(email)
     const handleOTPForm = async (event) => {
         event.preventDefault()
         const form = otpFormRef.current
@@ -29,7 +31,7 @@ const OTPPage = () => {
             return
         }
 
-        await fetch(`${backendURL}/signup/verifyOTP`, {
+        await fetch(`${backendURL}/auth/signup/verifyOTP`, {
             method: "POST",
             headers: {
                 "content-type": "application/json"
@@ -50,7 +52,7 @@ const OTPPage = () => {
                 console.log(data.response)
                 toast.success(data.response)
                 localStorage.setItem("authToken", "fake-token")
-                localStorage.remove("email")
+                localStorage.removeItem("email")
                 navigate("/dashboard")
             })
             .catch(error => {
@@ -79,14 +81,11 @@ const OTPPage = () => {
         }
 
         // Here we need to resend the otp ok.
-        await fetch(`${backendURL}/signup/resendOTP`, {
-            method: "POST",
+        await fetch(`${backendURL}/auth/signup/resendOTP?email=${email}`, {
+            method: "GET",
             headers: {
                 "content-type": "application/json"
-            },
-            body: JSON.stringify({
-                "email": email
-            })
+            }
         })
         .then(async response => {
             const data = await response.json()
@@ -124,7 +123,7 @@ const OTPPage = () => {
             })
         }, 1000)
         return () => clearInterval(interval)
-    }, [])
+    }, [email])
 
     // function for formating the time in MM:SS format
     const formatTime = (time) => {
