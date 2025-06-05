@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 const Index = () => {
 
     return <>
-        <div className="h-screen w-screen flex box-border text-white justify-center items-center flex-wrap">
-            <div className="w-1/4 h-1/2 flex flex-col items-start justify-center gap-6">
+        <div className="h-screen w-screen flex flex-col box-border text-white justify-center items-center lg:flex-row">
+            <div className="w-full h-1/2  lg:w-1/4 lg:h-1/2 flex flex-col items-start px-10 justify-center gap-6">
                 <h1 className="text-5xl font-bold">Connect</h1>
                 <p className="text-3xl font-bold">Talk Freely.<br></br>Stay Connected</p>
                 <Link to="/login">
@@ -16,7 +16,7 @@ const Index = () => {
                     </button>
                 </Link>
             </div>
-            <div className="w-1/4 h-1/2 bg-no-repeat bg-center bg-cover rounded-full" style={{ backgroundImage: `url(${image})`}}></div>
+            <div className="w-1/2 h-1/4 lg:w-1/4 lg:h-1/2 bg-no-repeat bg-center bg-cover rounded-full box-border mb-10" style={{ backgroundImage: `url(${image})`}}></div>
         </div>
     </>
 }

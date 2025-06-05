@@ -58,7 +58,7 @@ const Login = () => {
 
     return (
         <div className="h-screen w-screen flex justify-center items-center text-white">
-            <div className="w-1/2 h-screen flex flex-col justify-center items-center gap-4">
+            <div className="w-full lg:w-1/2 h-screen flex flex-col justify-center items-center gap-4">
                 <h1 className="font-bold text-4xl">Login</h1>
                 <form ref={loginFormRef} onSubmit={handleSubmit} id="loginform" className=" h-[50%] w-full flex flex-col justify-evenly items-center">
                     <InputBox placeholder={"Email"} name={"email"} type={"email"} />
