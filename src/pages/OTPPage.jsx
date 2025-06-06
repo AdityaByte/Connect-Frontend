@@ -63,6 +63,7 @@ const OTPPage = () => {
 
     // Resend OTP functionality.
 
+    const [timer, setTimer] = useState(120) // Timer is the state variable and setTimer is the function for updating it.
     const [resendCount, setResendCount] = useState(0)
 
     const resendOTP = async () => {
@@ -87,26 +88,23 @@ const OTPPage = () => {
                 "content-type": "application/json"
             }
         })
-        .then(async response => {
-            const data = await response.json()
-            if (response != 200) {
-                throw new Error(data.response)
-            }
-            return data
-        })
-        .then(async data => {
-            console.log(data.response)
-            toast.success(data.response)
-            setTimer(120)
-        })
-        .catch(async error => {
-            console.error(error.message)
-            toast.error(error.message)
-        })
+            .then(async response => {
+                const data = await response.json()
+                if (response != 200) {
+                    throw new Error(data.response)
+                }
+                return data
+            })
+            .then(async data => {
+                console.log(data.response)
+                toast.success(data.response)
+                setTimer(120)
+            })
+            .catch(async error => {
+                console.error(error.message)
+                toast.error(error.message)
+            })
     }
-
-    // Handling the functionality of UI update ok
-    const [timer, setTimer] = useState(120) // Timer is the state variable and setTimer is the function for updating it.
 
     // It runs when the timer variable changes.
     useEffect(() => {
@@ -119,7 +117,7 @@ const OTPPage = () => {
                     clearInterval(interval)
                     return 0
                 }
-                return prev-1
+                return prev - 1
             })
         }, 1000)
         return () => clearInterval(interval)
@@ -127,7 +125,7 @@ const OTPPage = () => {
 
     // function for formating the time in MM:SS format
     const formatTime = (time) => {
-        const minutes = Math.floor(time/60);
+        const minutes = Math.floor(time / 60);
         const seconds = time % 60;
         return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
     }
@@ -139,7 +137,7 @@ const OTPPage = () => {
                 <InputBox placeholder={"Enter OTP"} name={"otp"} type={"text"} />
                 {/* We need to include a timer and the resend button functionality ok */}
                 <div className="flex w-full justify-between items-center">
-                    <span id="timer" style={{ color : timer === 0 ? 'red' : 'green'}}>Remaining time: {formatTime(timer)}</span>
+                    <span id="timer" style={{ color: timer === 0 ? 'red' : 'green' }}>Remaining time: {formatTime(timer)}</span>
                     <button disabled={resendCount === 3 || !email || email.trim() === ""} className="text-[#AAAAAA] text-sm hover:text-[#white] cursor-pointer" onClick={resendOTP}>Resend OTP : Limit {resendCount === 3 ? "Reached" : resendCount}</button>
                 </div>
                 <SubmitButton buttontext={"Submit"} />
