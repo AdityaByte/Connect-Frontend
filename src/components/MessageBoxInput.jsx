@@ -1,15 +1,8 @@
 import React, { useRef, useState } from "react";
 
-const MessageBoxInput = () => {
-    
-    const inputRef = useRef(null)
-    const [message, setMessage] = useState("")
+const MessageBoxInput = ({inputRef, onClick}) => {
 
-    const sendMessage = () => {
-        console.log("sending message...", message)
-        setMessage("")
-        inputRef.current?.focus()
-    }
+    const [message, setMessage] = useState("")
 
     return (
         <div className="text-sm h-[45px] lg:h-[61px] w-full absolute bottom-3 flex justify-center items-center">
@@ -23,11 +16,11 @@ const MessageBoxInput = () => {
                 onKeyDown={(e) => {
                     if (e.key == "Enter") {
                         e.preventDefault()
-                        sendMessage()
+                        onClick()
                     }
                 }}
             />
-            <button onClick={sendMessage} className="h-full w-[25%] bg-[#00ADB5] hover:bg-green-600 active:bg-green-800 cursor-pointer font-bold">Send</button>
+            <button onClick={onClick}  className="h-full w-[25%] bg-[#00ADB5] hover:bg-green-600 active:bg-green-800 cursor-pointer font-bold">Send</button>
         </div>
     )
 }

@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import image from "../assets/images/img-chat-app.png"
-import RoomCard from "../components/RoomCard";
-import SearchBox from "../components/SearchBox";
-import MessageBoxInput from "../components/MessageBoxInput";
-import MessageTag from "../components/MessageTag";
 import { FaHome, FaCog, FaUserFriends, FaSignOutAlt, FaComments } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import MemberCard from "../components/MemberCard";
 import { RoomTabs } from "../components/RoomsTab";
 import { ChatBox } from "../components/ChatBox";
 import { OnlinePersonTab } from "../components/OnlinePersonTab";
@@ -27,6 +22,8 @@ const Dashboard = () => {
     const username = decodedData.sub
     const email = decodedData.email
 
+    localStorage.setItem("username", username)
+
     const handleSignOut = (event) => {
         event.preventDefault();
         localStorage.clear()
@@ -42,7 +39,7 @@ const Dashboard = () => {
 
         if (!connected) return;
 
-        const subscription = subscribe("/topic/first", (message) => {
+        const subscription = subscribe("/topic/greet", (message) => {
             console.log(message.body)
             setMessage(message)
         })
@@ -56,15 +53,17 @@ const Dashboard = () => {
 
     const inputReference = useRef(null)
 
-    const sendMesssage = () => {
-        const msg = inputReference.current?.value
-        console.log("Message value: ", msg)
-        publish("/app/firstmsg", {
-            username: "adityapawar",
-            role: "ADMIN",
-            status: "ACTIVE"
-        })
-    }
+    useEffect(() => {
+        if (connected) {
+            const msg = inputReference.current?.value;
+            console.log("Message value: ", msg);
+            publish("/app/greet", {}, {
+                username: username,
+                role: "USER",
+                status: "ACTIVE",
+            });
+        }
+    }, [connected]);
 
     // Hooks for switching between different tabs.
     const [currentTab, setCurrentTab] = useState("HOME")

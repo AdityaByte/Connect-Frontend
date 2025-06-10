@@ -48,10 +48,11 @@ export const SocketProvider = ({ children }) => {
         }
     }
 
-    const publish = (destination, body) => {
+    const publish = (destination, headers={}, body) => {
         if (clientRef.current && clientRef.current.connected) {
             clientRef.current.publish({
                 destination,
+                headers,
                 body: JSON.stringify(body)
             })
         }
