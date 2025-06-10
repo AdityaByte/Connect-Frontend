@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import home from "../assets/svg/home.svg"
-import settings from "../assets/svg/settings.svg"
 import image from "../assets/images/img-chat-app.png"
 import RoomCard from "../components/RoomCard";
 import SearchBox from "../components/SearchBox";
 import MessageBoxInput from "../components/MessageBoxInput";
 import MessageTag from "../components/MessageTag";
-import { FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaCog, FaUserFriends, FaSignOutAlt, FaComments } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import MemberCard from "../components/MemberCard";
+import { RoomTabs } from "../components/RoomsTab";
+import { ChatBox } from "../components/ChatBox";
+import { OnlinePersonTab } from "../components/OnlinePersonTab";
 import { useSocket } from "../context/SocketContext";
 
 const Dashboard = () => {
@@ -65,34 +66,36 @@ const Dashboard = () => {
         })
     }
 
+    // Hooks for switching between different tabs.
+    const [currentTab, setCurrentTab] = useState("HOME")
+
     return (
         <div className="h-screen w-screen flex text-white">
-            <div className="h-full w-[5%] bg-[#413A3A] flex flex-col items-center">
+            <div className="h-screen w-[15%] bg-[#413A3A] flex flex-col justify-between items-center">
                 <div className="realtive h-1/4 w-full flex flex-col justify-evenly items-center">
-                    <img src={home} className="w-6 h-6 text-white" />
-                    <img src={settings} className="w-6 h-6 text-white" />
-                    <FaSignOutAlt size={30} className="w-6 h-6 text-white cursor-pointer hover:bg-green-400 active:bg-green-700" onClick={handleSignOut} />
+                    <FaHome onClick={() => setCurrentTab("HOME")} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "HOME" ? {color: "green"} : {}}/>
+                    <FaComments onClick={() => setCurrentTab("ROOMS")} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "ROOMS" ? {color: "green"} : {}} />
+                    <FaUserFriends onClick={() => setCurrentTab("USERS")} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "USERS" ? {color: "green"} : {}} />
+                    <FaCog onClick={() => setCurrentTab("SETTINGS")} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "SETTINGS" ? {color: "green"} : {}} />
+                    <FaSignOutAlt onClick={handleSignOut} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-red-400 active:text-red-700" />
                 </div>
-                <div className="bottom-4 w-10 h-10 rounded-full bg-white absolute bg-center bg-cover" style={{ backgroundImage: `url(${image})` }}></div>
+                <div className="bottom-4 w-10 h-10 rounded-full bg-white mb-3 bg-center bg-cover" style={{ backgroundImage: `url(${image})` }}></div>
             </div>
-            <div className="h-full w-[25%] bg-[#FFFFFF1A] flex flex-col items-center gap-10">
-                <h1 className="h-[10%] w-full text-center flex justify-center items-center text-xl font-bold">Rooms</h1>
-                <div className="h-[90%] w-full flex flex-col gap-1">
-                    <RoomCard roomImg={image} roomName={"Cat World"} />
-                    <RoomCard roomImg={image} roomName={"Welcome Room"} />
+            {currentTab === "ROOMS" && (
+                <div className="w-[90%] h-full">
+                    <RoomTabs />
                 </div>
-            </div>
-            <div className="h-full w-[50%] relative pt-2 px-2 pb-20">
-                <MessageTag senderImg={image} message={message} />
-                <MessageBoxInput />
-            </div>
-            <div className="h-full w-[25%] bg-[#FFFFFF1A] flex flex-col items-center justify-between gap-1">
-                <h1 className="h-[10%] w-full text-center flex justify-center items-center text-xl font-bold">Members</h1>
-                <SearchBox />
-                <div className="h-[80%] w-full">
-                    <MemberCard pfp={image} memberName={"aditya"} status={true} />
+            )}
+            {currentTab === "HOME" && (
+                <div className="w-[90%] h-full">
+                    <ChatBox />
                 </div>
-            </div>
+            )}
+            {currentTab === "USERS" && (
+                <div className="w-[90%] h-full">
+                    <OnlinePersonTab />
+                </div>
+            )}
         </div>
     )
 }
