@@ -35,18 +35,17 @@ const Dashboard = () => {
 
     // When the page has been loaded we have to do some things.
     const [message, setMessage] = useState("")
-    const {connected, subscribe, publish} = useSocket()
+    const { connected, subscribe, publish } = useSocket()
 
     useEffect(() => {
 
         if (!connected) return;
 
-        const subscription = subscribe("/topic/greet", (message) => {
+        const subscription = subscribe("/topic/first", (message) => {
             console.log(message.body)
             setMessage(message)
         })
 
-        // Cleanup on unmount
         return () => {
             if (subscription) subscription.unsubscribe()
         }
@@ -59,10 +58,10 @@ const Dashboard = () => {
     const sendMesssage = () => {
         const msg = inputReference.current?.value
         console.log("Message value: ", msg)
-        publish("/app/greet", {
+        publish("/app/firstmsg", {
             username: "adityapawar",
             role: "ADMIN",
-            status: "ONLINE"
+            status: "ACTIVE"
         })
     }
 
@@ -85,7 +84,7 @@ const Dashboard = () => {
             </div>
             <div className="h-full w-[50%] relative pt-2 px-2 pb-20">
                 <MessageTag senderImg={image} message={message} />
-                <MessageBoxInput inputRef={inputReference} onClick={sendMesssage} />
+                <MessageBoxInput />
             </div>
             <div className="h-full w-[25%] bg-[#FFFFFF1A] flex flex-col items-center justify-between gap-1">
                 <h1 className="h-[10%] w-full text-center flex justify-center items-center text-xl font-bold">Members</h1>
