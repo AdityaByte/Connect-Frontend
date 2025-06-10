@@ -11,11 +11,13 @@ export const SocketProvider = ({ children }) => {
     const clientRef = useRef(null)
 
     useEffect(() => {
-        const socketURL = `${import.meta.env.VITE_BACKEND_URL}/connect-ws`
+        const socketURL = `${import.meta.env.VITE_BACKEND_URL}/ws`
+        console.log("backend url ", socketURL)
+        const socket = new SockJS(socketURL)
         const stompClient = new Client({
-            webSocketFactory: () => new SockJS(socketURL),
+            webSocketFactory: () => socket,
             debug: str => console.log(str),
-            reconnectDelay: 5000,
+            reconnectDelay: 10000, // Reconnects after 10 seconds.
             onConnect: () => {
                 console.log("STOMP connected")
                 setConnected(true)
@@ -26,6 +28,9 @@ export const SocketProvider = ({ children }) => {
             },
             onStompError: (frame) => {
                 console.error("STOMP Error", frame)
+            },
+            onWebSocketClose: (event) => {
+                console.warn("Websocket closed:", event)
             }
         })
 
