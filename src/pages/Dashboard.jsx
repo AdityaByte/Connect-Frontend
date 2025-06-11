@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import image from "../assets/images/img-chat-app.png"
-import { FaHome, FaCog, FaUserFriends, FaSignOutAlt, FaComments } from "react-icons/fa";
+import { FaHome, FaCog, FaUserFriends, FaSignOutAlt, FaComments, FaWeixin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { RoomTabs } from "../components/RoomsTab";
 import { ChatBox } from "../components/ChatBox";
 import { OnlinePersonTab } from "../components/OnlinePersonTab";
 import { useSocket } from "../context/SocketContext";
+import { GreetWindow } from "../components/GreetWindow";
 
 const Dashboard = () => {
 
@@ -73,6 +74,7 @@ const Dashboard = () => {
             <div className="h-screen w-[15%] bg-[#413A3A] flex flex-col justify-between items-center">
                 <div className="realtive h-1/4 w-full flex flex-col justify-evenly items-center">
                     <FaHome onClick={() => setCurrentTab("HOME")} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "HOME" ? {color: "green"} : {}}/>
+                    <FaWeixin onClick={() => setCurrentTab("CHAT")} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "CHAT" ? {color: "green"} : {}}/>
                     <FaComments onClick={() => setCurrentTab("ROOMS")} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "ROOMS" ? {color: "green"} : {}} />
                     <FaUserFriends onClick={() => setCurrentTab("USERS")} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "USERS" ? {color: "green"} : {}} />
                     <FaCog onClick={() => setCurrentTab("SETTINGS")} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "SETTINGS" ? {color: "green"} : {}} />
@@ -80,14 +82,19 @@ const Dashboard = () => {
                 </div>
                 <div className="bottom-4 w-10 h-10 rounded-full bg-white mb-3 bg-center bg-cover" style={{ backgroundImage: `url(${image})` }}></div>
             </div>
+            {currentTab === "CHAT" && (
+                <div className="w-[90%] h-full">
+                    <ChatBox />
+                </div>
+            )}
             {currentTab === "ROOMS" && (
                 <div className="w-[90%] h-full">
-                    <RoomTabs />
+                    <RoomTabs setCurrentTab={setCurrentTab}/>
                 </div>
             )}
             {currentTab === "HOME" && (
                 <div className="w-[90%] h-full">
-                    <ChatBox />
+                    <GreetWindow username={username} />
                 </div>
             )}
             {currentTab === "USERS" && (
