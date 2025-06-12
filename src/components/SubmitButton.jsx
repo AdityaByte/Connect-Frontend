@@ -1,3 +1,5 @@
+import React from "react"
+
 const SubmitButton = ({buttontext}) => {
     return (
         <div className="w-[80%] lg:w-full max-w-[500px]">

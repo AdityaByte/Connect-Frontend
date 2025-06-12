@@ -6,8 +6,8 @@ const SocketContext = createContext()
 export const useSocket = () => useContext(SocketContext)
 
 export const SocketProvider = ({ children }) => {
-    const [connected, setConnected] = useState(false)
 
+    const [connected, setConnected] = useState(false)
     const clientRef = useRef(null)
 
     useEffect(() => {
@@ -16,6 +16,9 @@ export const SocketProvider = ({ children }) => {
         const socket = new SockJS(socketURL)
         const stompClient = new Client({
             webSocketFactory: () => socket,
+            connectHeaders: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
             debug: str => console.log(str),
             reconnectDelay: 10000, // Reconnects after 10 seconds.
             onConnect: () => {

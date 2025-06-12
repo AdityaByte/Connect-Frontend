@@ -1,7 +1,6 @@
 import React from "react"
 
 const RoomCard = ({ roomImg, roomName, onClick }) => {
-
     return (
         <div className="w-full px-4 py-2 h-max-[41px] bg-[#1E1E1E] border-white border flex justify-between items-center">
             <img src={roomImg} alt="" className="w-10 h-10 rounded-full" />
