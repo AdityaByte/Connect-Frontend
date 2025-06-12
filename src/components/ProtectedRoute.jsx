@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
 
     useEffect(() => {
         const checkAuth = async () => {
-            console.log("Checking the auth...")
+            console.log("Checking Authentication")
             const token = localStorage.getItem("token")
             const token_expiry = localStorage.getItem("tokenExpiry")
 
@@ -54,7 +54,7 @@ const ProtectedRoute = ({ children }) => {
     if (isChecking) {
         return (
             <div className="h-screen w-screen flex justify-center items-center text-2xl text-white font-bold">
-                Loading.... 
+                Loading....
             </div>
         )
     }

@@ -2,11 +2,22 @@ import React from "react";
 import RoomCard from "./RoomCard";
 import image from "../assets/images/img-chat-app.png"
 import { useSocket } from "../context/SocketContext";
+import { useDispatch } from "react-redux";
+import { changeTab } from "../feature/tab/manageTabs";
 
-export const RoomTabs = ({ setCurrentTab }) => {
+export const RoomTabs = () => {
 
+    // Fetching the localStorage data
+    const username = localStorage.getItem("username")
+
+    // WebSocket hook
     const { connected, subscribe, publish } = useSocket()
 
+    // Redux Hooks
+    const dispatch = useDispatch()
+
+
+    // Hard Coded Dummy room
     const roomList = [
         {
             id: "general",
@@ -15,16 +26,14 @@ export const RoomTabs = ({ setCurrentTab }) => {
         }
     ]
 
-    const username = localStorage.getItem("username")
-
     const joinRoom = (e, roomId) => {
         e.preventDefault()
-        console.log("Joining room:", roomId)
-
-        // Here have to send a request to the backend for joining the room.
+        // Checking connection exists or not if not returning without proceeding further.
         if (!connected) return;
+
+        // Checking the user.
         if (username == null || username.trim() == "") return;
-        // Setting the roomId as active room only if the user is connected to the socket server.
+
         localStorage.setItem("activeRoom", roomId)
 
         publish("/app/chat.join", {
@@ -32,8 +41,8 @@ export const RoomTabs = ({ setCurrentTab }) => {
             roomID: roomId,
         }, {})
 
-        // When the user joins the room without any error we have to redirect it to the chat window.
-        setCurrentTab("CHAT")
+        // When the user joins the room without any error changing the state of UI.
+        dispatch(changeTab("CHAT"))
     }
 
     return (
