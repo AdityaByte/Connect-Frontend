@@ -3,6 +3,7 @@ import InputBox from "../components/InputBox";
 import SubmitButton from "../components/SubmitButton";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import InputBoxTypePassword from "../components/InputBoxTypePassword";
 
 const Signup = () => {
 
@@ -71,8 +72,8 @@ const Signup = () => {
                 <div className="flex flex-col justify-center items-center gap-3 lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:gap-10 lg:p-4 w-full">
                     <InputBox placeholder={"Username"} type={"text"} name={"username"} />
                     <InputBox placeholder={"Email"} type={"email"} name={"email"} />
-                    <InputBox placeholder={"Password"} type={"password"} name={"pass"} />
-                    <InputBox placeholder={"Confirm Password"} type={"password"} name={"cpass"} />
+                    <InputBoxTypePassword placeholder={"Password"} type={"password"} name={"pass"} />
+                    <InputBoxTypePassword placeholder={"Confirm Password"} type={"password"} name={"cpass"} />
                 </div>
                 <Link className="underline text-[#AAAAAA]" to={"/login"}>Already have an account? Login</Link>
                 <SubmitButton buttontext={"Signup"} />

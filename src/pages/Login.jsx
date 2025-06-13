@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import InputBox from "../components/InputBox";
 import SubmitButton from "../components/SubmitButton";
 import { toast } from "react-toastify";
+import InputBoxTypePassword from "../components/InputBoxTypePassword";
 
 const Login = () => {
 
@@ -62,7 +63,7 @@ const Login = () => {
                 <h1 className="font-bold text-4xl">Login</h1>
                 <form ref={loginFormRef} onSubmit={handleSubmit} id="loginform" className=" h-[50%] w-full flex flex-col justify-evenly items-center">
                     <InputBox placeholder={"Email"} name={"email"} type={"email"} />
-                    <InputBox placeholder={"Password"} name={"pass"} type={"password"} />
+                    <InputBoxTypePassword placeholder={"Password"} name={"pass"} type={"password"} />
                     <Link to={"/signup"} className="underline text-[#AAAAAA]">Don't have an account? Signup</Link>
                     <SubmitButton buttontext={"Login"} />
                 </form>
