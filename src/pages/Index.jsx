@@ -1,6 +1,5 @@
 // Index.jsx is the first page that was display it routes on /.
 import React from "react";
-import image from '../assets/images/img-chat-app.png'
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -16,7 +15,7 @@ const Index = () => {
                     </button>
                 </Link>
             </div>
-            <div className="w-1/2 h-1/4 lg:w-1/4 lg:h-1/2 bg-no-repeat bg-center bg-cover rounded-full box-border mb-10" style={{ backgroundImage: `url(${image})`}}></div>
+            <div className="w-[14rem] h-[14rem] lg:w-[25rem] lg:h-[25rem] bg-no-repeat bg-center bg-cover rounded-full box-border mb-10" style={{ backgroundImage: `url("connect-logo.png")`}}></div>
         </div>
     </>
 }

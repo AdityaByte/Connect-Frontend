@@ -75,34 +75,34 @@ const Dashboard = () => {
 
     return (
         <div className="h-screen w-screen flex text-white">
-            <div className="h-screen w-[15%] bg-[#413A3A] flex flex-col justify-between items-center">
-                <div className="realtive h-1/4 w-full flex flex-col justify-evenly items-center">
-                    <FaHome onClick={() => dispatch(changeTab("HOME"))} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "HOME" ? { color: "green" } : {}} />
-                    <FaWeixin onClick={() => dispatch(changeTab("CHAT"))} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "CHAT" ? { color: "green" } : {}} />
-                    <FaComments onClick={() => dispatch(changeTab("ROOMS"))} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "ROOMS" ? { color: "green" } : {}} />
-                    <FaUserFriends onClick={() => dispatch(changeTab("USERS"))} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "USERS" ? { color: "green" } : {}} />
-                    <FaCog onClick={() => dispatch(changeTab("SETTINGS"))} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "SETTINGS" ? { color: "green" } : {}} />
-                    <FaSignOutAlt onClick={handleSignOut} size={30} className="w-6 h-6 text-white cursor-pointer hover:text-red-400 active:text-red-700" />
+            <div className="h-screen w-[15%] lg:w-[5%] bg-[#1C1F24] flex flex-col justify-between items-center">
+                <div className="realtive h-1/4 lg:h-1/3 w-full flex flex-col justify-evenly items-center">
+                    <FaHome onClick={() => dispatch(changeTab("HOME"))} size={30} className="w-6 h-6 lg:w-7 lg:w-7 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "HOME" ? { color: "green" } : {}} />
+                    <FaWeixin onClick={() => dispatch(changeTab("CHAT"))} size={30} className="w-6 h-6 lg:w-7 lg:w-7 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "CHAT" ? { color: "green" } : {}} />
+                    <FaComments onClick={() => dispatch(changeTab("ROOMS"))} size={30} className="w-6 h-6 lg:w-7 lg:w-7 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "ROOMS" ? { color: "green" } : {}} />
+                    <FaUserFriends onClick={() => dispatch(changeTab("USERS"))} size={30} className="w-6 h-6 lg:w-7 lg:w-7 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "USERS" ? { color: "green" } : {}} />
+                    <FaCog onClick={() => dispatch(changeTab("SETTINGS"))} size={30} className="w-6 h-6 lg:w-7 lg:w-7 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "SETTINGS" ? { color: "green" } : {}} />
+                    <FaSignOutAlt onClick={handleSignOut} size={30} className="w-6 h-6 lg:w-7 lg:w-7 text-white cursor-pointer hover:text-red-400 active:text-red-700" />
                 </div>
                 <div className="bottom-4 w-10 h-10 rounded-full bg-white mb-3 bg-center bg-cover" style={{ backgroundImage: `url(${image})` }}></div>
             </div>
             {currentTab === "CHAT" && (
-                <div className="w-[90%] h-full">
+                <div className="w-[90%] lg:w-[95%] h-full">
                     <ChatBox />
                 </div>
             )}
             {currentTab === "ROOMS" && (
-                <div className="w-[90%] h-full">
+                <div className="w-[90%] lg:w-[95%] h-full">
                     <RoomTabs />
                 </div>
             )}
             {currentTab === "HOME" && (
-                <div className="w-[90%] h-full">
+                <div className="w-[90%] lg:w-[95%] h-full">
                     <GreetWindow username={username} />
                 </div>
             )}
             {currentTab === "USERS" && (
-                <div className="w-[90%] h-full">
+                <div className="w-[90%] lg:w-[95%] h-full">
                     <OnlinePersonTab />
                 </div>
             )}

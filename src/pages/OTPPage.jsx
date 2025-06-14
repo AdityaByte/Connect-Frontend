@@ -133,10 +133,10 @@ const OTPPage = () => {
     return (
         <div className="h-screen w-screen flex flex-col justify-center items-center gap-5 text-white">
             <h1 className="text-2xl font-bold">One time Password</h1>
-            <form ref={otpFormRef} onSubmit={handleOTPForm} className="flex flex-col w-1/3 h-1/4 justify-evenly items-center">
+            <form ref={otpFormRef} onSubmit={handleOTPForm} className="flex flex-col w-full lg:w-1/3 h-1/4 justify-evenly items-center">
                 <InputBox placeholder={"Enter OTP"} name={"otp"} type={"text"} />
                 {/* We need to include a timer and the resend button functionality ok */}
-                <div className="flex w-full justify-between items-center">
+                <div className="flex w-full justify-evenly lg: items-center">
                     <span id="timer" style={{ color: timer === 0 ? 'red' : 'green' }}>Remaining time: {formatTime(timer)}</span>
                     <button disabled={resendCount === 3 || !email || email.trim() === ""} className="text-[#AAAAAA] text-sm hover:text-[#white] cursor-pointer" onClick={resendOTP}>Resend OTP : Limit {resendCount === 3 ? "Reached" : resendCount}</button>
                 </div>
