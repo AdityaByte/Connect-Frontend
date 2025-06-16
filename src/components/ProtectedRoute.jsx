@@ -41,7 +41,7 @@ const ProtectedRoute = ({ children }) => {
                 setIsAuthenticated(res.ok)
 
             } catch (err) {
-                console.err("Token verification failed", err)
+                console.error("Token verification failed", err)
                 setIsAuthenticated(false)
             } finally {
                 setIsChecking(false)

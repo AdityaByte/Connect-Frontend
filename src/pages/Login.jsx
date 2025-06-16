@@ -52,7 +52,7 @@ const Login = () => {
                 navigate("/dashboard")
             })
             .catch(error => {
-                console.log(error)
+                console.log(error.message)
                 toast.error(error.message)
             })
     }

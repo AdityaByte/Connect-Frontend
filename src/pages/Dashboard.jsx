@@ -8,7 +8,8 @@ import { OnlinePersonTab } from "../components/OnlinePersonTab";
 import { useSocket } from "../context/SocketContext";
 import { useDispatch, useSelector } from "react-redux";
 import { changeTab } from "../feature/tab/manageTabs";
-import {GreetWindow} from "../components/GreetWindow"
+import { GreetWindow } from "../components/GreetWindow"
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
 
@@ -57,20 +58,32 @@ const Dashboard = () => {
         if (!connected) return;
         let greeted = sessionStorage.getItem("greeted")
         if (!greeted) {
-            publish("/app/greet", {}, {
-                username: username,
-                role: "USER",
-                status: "ACTIVE",
-            });
+            publish("/app/greet", {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }, {});
             sessionStorage.setItem("greeted", "true")
         }
     }, [connected]);
 
-    const handleSignOut = (event) => {
+    const handleSignOut = async (event) => {
         event.preventDefault();
-        localStorage.clear()
-        console.log("Logged out successfull")
-        navigate("/")
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/logout?username=${username}`, {
+            method: "GET"
+        })
+            .then(async response => {
+                const data = await response.text()
+                if (!response.ok) {
+                    throw new Error(data || "Logout failed  ")
+                }
+                localStorage.clear()
+                sessionStorage.clear()
+                toast("Logged out successfully")
+                navigate("/")
+            })
+            .catch(err => {
+                console.error("Logout error:", err.message)
+                toast.error("Failed to logout. Please try again")
+            })
     }
 
     return (
