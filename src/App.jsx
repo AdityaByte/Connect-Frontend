@@ -30,7 +30,7 @@ const App = () => {
         />
         <Route path="/signup/otp" element={<OTPPage />} />
       </Routes>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={500} />
     </BrowserRouter>
   )
 }
