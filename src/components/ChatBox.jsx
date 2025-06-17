@@ -21,30 +21,30 @@ export const ChatBox = () => {
     // Managing State via Redux
     const dispatch = useDispatch()
     const messages = useSelector(state => state.messages.messages) || []
-    const currentRoom = useSelector(state => state.currentRoom.roomData)
+    const joinedRoom = useSelector(state => state.joinedRoom.joinedRoomData)
 
     useEffect(() => {
 
         // If the Active Room is null we are not triggering any change.
         // Checking the object is null or not.
-        if (currentRoom.roomId === "" || currentRoom.roomName === "") return;
+        if (joinedRoom.roomId === "" || joinedRoom.roomName === "") return;
 
         // Subscribing to the history handler.
-        const historySub = subscribe(`/topic/history/${currentRoom.roomId}`, (msg) => {
+        const historySub = subscribe(`/topic/history/${joinedRoom.roomId}`, (msg) => {
             const historyData = JSON.parse(msg.body)
             dispatch(setMessages(historyData))
         })
 
 
         // Subscribing to the chat handler.
-        const sub = subscribe(`/topic/chat/${currentRoom.roomId}`, (msg) => {
+        const sub = subscribe(`/topic/chat/${joinedRoom.roomId}`, (msg) => {
             const data = JSON.parse(msg.body)
             dispatch(addMessage(data))
         })
 
         // Triggering the history request.
         publish("/app/chat.history", {
-            roomId: currentRoom.roomId,
+            roomId: joinedRoom.roomId,
         }, {})
 
         // Unsubscribing to the websocket channel when the currentUser changes or when the user change the room.
@@ -56,7 +56,7 @@ export const ChatBox = () => {
                 historySub.unsubscribe();
             }
         }
-    }, [connected, currentUser, currentRoom]) // Re-renders when the connection changed or when the currentUser changed or currentRoom changes. It re-renders the changes.
+    }, [connected, currentUser, joinedRoom]) // Re-renders when the connection changed or when the currentUser changed or joinedRoom changes. It re-renders the changes.
 
     const sendMessage = () => {
 
@@ -64,11 +64,11 @@ export const ChatBox = () => {
         if (!connected) return;
 
         // Publishing the message to the chat.send route.
-        console.log(`Sending message to the backend, user: ${currentUser}, room: ${currentRoom.roomName}`)
+        console.log(`Sending message to the backend, user: ${currentUser}, room: ${joinedRoom.roomName}`)
         let message = inputRef.current?.value
         console.log(`User Message: ${message}`)
         publish(`/app/chat.send`, {
-            roomId: currentRoom.roomId
+            roomId: joinedRoom.roomId
         }, {
             sender: currentUser,
             message: message
@@ -77,10 +77,10 @@ export const ChatBox = () => {
     }
 
     return (
-        currentRoom.roomId !== "" ?
+        joinedRoom.roomId !== "" ?
             (<div className="w-full h-full grids-rows-3 overflow-hidden">
                 <div className="w-full h-[3rem] lg:px-10 bg-[#1F2328]">
-                    <RoomTitleTab roomName={currentRoom.roomName} />
+                    <RoomTitleTab roomName={joinedRoom.roomName} />
                 </div>
                 <div className="w-full h-[calc(100vh-6rem)] lg:h-[calc(100vh-7rem)] overflow-y-auto lg:px-10">
                     {
