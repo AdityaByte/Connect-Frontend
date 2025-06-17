@@ -2,10 +2,11 @@ import React from "react";
 import RoomCard from "./RoomCard";
 import image from "../assets/images/img-chat-app.png"
 import { useSocket } from "../context/SocketContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeTab } from "../feature/tab/manageTabs";
-import { useState, useEffect } from "react";
-import { setRoom } from "../feature/room/manageCurrentRoom";
+import { useEffect } from "react";
+import { setJoinedRoom } from "../feature/room/manageJoinedRoom";
+import { setRooms } from "../feature/room/manageRoom";
 
 export const RoomTabs = () => {
 
@@ -17,29 +18,27 @@ export const RoomTabs = () => {
 
     // Redux Hooks
     const dispatch = useDispatch()
-
-    // Rooms
-    const [rooms, setRooms] = useState([])
+    const rooms = useSelector(state => state.roomsSlice.rooms)
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/room/getall`, {
-            method: "GET"
-        })
-            .then(async response => {
-                const data = await response.text();
-                if (!data) {
-                    return []
-                }
-                return JSON.parse(data)
+        if (rooms.length === 0) {
+            fetch(`${import.meta.env.VITE_BACKEND_URL}/room/getall`, {
+                method: "GET"
             })
-            .then(data => {
-                console.log("fetched data:", data)
-                setRooms(data)
-            })
-            .catch(error => {
-                console.error(error)
-            })
-
+                .then(async response => {
+                    const data = await response.text();
+                    if (!data) {
+                        return []
+                    }
+                    return JSON.parse(data)
+                })
+                .then(data => {
+                    dispatch(setRooms(data))
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+        }
     }, [])
 
     const joinRoom = (e, roomId, roomName) => {
@@ -56,7 +55,7 @@ export const RoomTabs = () => {
         })
 
         // When the user joins the room without any error changing the state of UI.
-        dispatch(setRoom({
+        dispatch(setJoinedRoom({
             roomId: roomId,
             roomName: roomName
         }))
