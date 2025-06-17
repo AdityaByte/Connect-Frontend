@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeTab } from "../feature/tab/manageTabs";
 import { GreetWindow } from "../components/GreetWindow"
 import { toast } from "react-toastify";
+import Profile from "../components/Profile";
 
 const Dashboard = () => {
 
@@ -26,6 +27,14 @@ const Dashboard = () => {
     const dispatch = useDispatch()
     const currentTab = useSelector(state => state.tab)
 
+    // state management
+    const [profileTab, setProfileTab] = useState(false)
+
+    const openProfileTab = (e) => {
+        e.preventDefault()
+        setProfileTab(true)
+    }
+
     const decodedData = decodeToken({ token })
 
     if (!decodedData) {
@@ -34,6 +43,7 @@ const Dashboard = () => {
     }
 
     const username = decodedData.sub
+    const email = decodedData.email
     localStorage.setItem("username", username)
 
     const [message, setMessage] = useState("")
@@ -97,7 +107,7 @@ const Dashboard = () => {
                     <FaCog onClick={() => dispatch(changeTab("SETTINGS"))} size={30} className="w-6 h-6 lg:w-7 lg:w-7 text-white cursor-pointer hover:text-green-400 active:text-green-700" style={currentTab === "SETTINGS" ? { color: "green" } : {}} />
                     <FaSignOutAlt onClick={handleSignOut} size={30} className="w-6 h-6 lg:w-7 lg:w-7 text-white cursor-pointer hover:text-red-400 active:text-red-700" />
                 </div>
-                <div className="bottom-4 w-10 h-10 rounded-full bg-white mb-3 bg-center bg-cover" style={{ backgroundImage: `url(${image})` }}></div>
+                <div onClick={openProfileTab} className="bottom-4 w-10 h-10 rounded-full bg-white mb-3 bg-center bg-cover cursor-pointer" style={{ backgroundImage: `url(${image})` }}></div>
             </div>
             {currentTab === "CHAT" && (
                 <div className="w-[90%] lg:w-[95%] h-full">
@@ -110,8 +120,8 @@ const Dashboard = () => {
                 </div>
             )}
             {currentTab === "HOME" && (
-                <div className="w-[90%] lg:w-[95%] h-full">
-                    <GreetWindow username={username} />
+                <div className="w-[90%] lg:w-[95%] h-full" >
+                    <GreetWindow username={username}  />
                 </div>
             )}
             {currentTab === "USERS" && (
@@ -119,6 +129,7 @@ const Dashboard = () => {
                     <OnlinePersonTab />
                 </div>
             )}
+            {profileTab ? <Profile data={{username: username, email: email}} closeProfileTab={() => setProfileTab(!profileTab)} /> : null}
         </div>
     )
 }
