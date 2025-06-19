@@ -7,8 +7,9 @@ import { changeTab } from "../feature/tab/manageTabs";
 import { useEffect } from "react";
 import { setJoinedRoom } from "../feature/room/manageJoinedRoom";
 import { setRooms } from "../feature/room/manageRoom";
+import { FaPlus } from "react-icons/fa";
 
-export const RoomTabs = () => {
+export const RoomTabs = ({ onAddRoomBtnClick }) => {
 
     // Fetching the localStorage data
     const username = localStorage.getItem("username")
@@ -64,7 +65,11 @@ export const RoomTabs = () => {
 
     return (
         <div className="h-full w-full bg-[#FFFFFF1A] flex flex-col items-center gap-10">
-            <h1 className="h-[6%] w-full text-center flex justify-center items-center text-xl font-bold">Rooms</h1>
+            <div className="h-[7%] w-full flex justify-between items-center px-4 lg:px-10">
+                <span></span>
+                <h1 className="text-center text-xl font-bold">Rooms</h1>
+                <FaPlus onClick={onAddRoomBtnClick} size={25} className="bg-teal-700 rounded-full p-2 lg:p-1" />
+            </div>
             <div className="h-[95%] w-full flex flex-col gap-1">
                 {rooms.map((room) => {
                     return (<RoomCard

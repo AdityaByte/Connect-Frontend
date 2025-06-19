@@ -11,6 +11,7 @@ import { changeTab } from "../feature/tab/manageTabs";
 import { GreetWindow } from "../components/GreetWindow"
 import { toast } from "react-toastify";
 import Profile from "../components/Profile";
+import AddRoomWindow from "../components/AddRoomWIndow";
 
 const Dashboard = () => {
 
@@ -75,6 +76,12 @@ const Dashboard = () => {
         }
     }, [connected]);
 
+    const [isAddRoomOpen, setAddRoomOpen] = useState(false)
+
+    const openAddRoomTab = () => {
+        setAddRoomOpen(true)
+    }
+
     const handleSignOut = async (event) => {
         event.preventDefault();
         await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/logout?username=${username}`, {
@@ -116,7 +123,7 @@ const Dashboard = () => {
             )}
             {currentTab === "ROOMS" && (
                 <div className="w-[90%] lg:w-[95%] h-full">
-                    <RoomTabs />
+                    <RoomTabs onAddRoomBtnClick={openAddRoomTab} />
                 </div>
             )}
             {currentTab === "HOME" && (
@@ -130,6 +137,7 @@ const Dashboard = () => {
                 </div>
             )}
             {profileTab ? <Profile data={{username: username, email: email}} closeProfileTab={() => setProfileTab(!profileTab)} /> : null}
+            {isAddRoomOpen ? <AddRoomWindow closeWindow={() => setAddRoomOpen(false)} /> : null}
         </div>
     )
 }
