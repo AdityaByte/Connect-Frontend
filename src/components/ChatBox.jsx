@@ -71,7 +71,8 @@ export const ChatBox = () => {
             roomId: joinedRoom.roomId
         }, {
             sender: currentUser,
-            message: message
+            message: message,
+            timeStamp: new Date()
         })
         dispatch(clearInputBox())
     }
