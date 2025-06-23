@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import OTPPage from "./pages/OTPPage";
+import Admin from "./components/Admin";
 import { SocketProvider } from "./context/SocketContext";
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
           }
         />
         <Route path="/signup/otp" element={<OTPPage />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={500} />
     </BrowserRouter>
